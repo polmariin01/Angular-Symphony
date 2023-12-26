@@ -1,1 +1,42 @@
-<h2>Lletra: {{ letter }}</h2>
+<h1>COMPOSITORS AMB LA LLETRA {{ letter }}</h1>
+<div *ngIf="data">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">
+          ID
+        </th>
+        <th scope="col">
+          NAME
+        </th>
+        <th scope="col">
+          Complete Name
+        </th>
+        <th scope="col">
+          Birth
+        </th>
+        <th scope="col">
+          Death
+        </th>
+        <th scope="col">
+          Epoch
+        </th>
+        <th scope="col">
+          Portrait
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let composer of data.composers">
+      <tr>
+        <td scope="row">{{composer.id}}</td>
+        <td>{{composer.name}}</td>
+        <td>{{composer.complete_name}}</td>
+        <td>{{composer.birth}}</td>
+        <td>{{composer.death}}</td>
+        <td>{{composer.epoch}}</td>
+        <td>{{composer.portrait}}</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>

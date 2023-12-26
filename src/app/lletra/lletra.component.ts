@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-lletra',
   standalone: true,
-  imports: [],
+  imports: [HttpClientModule],
   templateUrl: './lletra.component.html',
   styleUrl: './lletra.component.scss'
 })

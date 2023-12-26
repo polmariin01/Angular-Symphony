@@ -3,12 +3,12 @@
         <div class="image-container">
             <img [src]="row.portrait" alt="Item Image" class="grid-image">
             <div class="overlay" *ngIf="row.expanded">
-                <p>{{ row.complete_name }}</p>
-                <p>{{ row.birth }} -- {{row.death}}</p>
+                <h3>{{ row.complete_name }}</h3>
+                <p>{{ row.birth.replaceAll('-','/') }}   -   {{row.death.replaceAll('-','/')}}</p>
                 <p>{{ row.epoch }}</p>
             </div>
         </div>
-        <p>{{ row.name }}</p>
+        <p (click)="onClick(row)">{{ row.name }}</p>
     </div>
 </div>  
 <!--

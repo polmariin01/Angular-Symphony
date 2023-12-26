@@ -32,4 +32,12 @@ export class LletraComponent {
         console.log(this.data);
       });
   }
+
+  onClick(row: any): void {
+    if (row.expanded) {
+      row.expanded = false;
+    } else {
+      row.expanded = true;
+    }
+  }
 }

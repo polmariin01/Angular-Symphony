@@ -1,3 +1,29 @@
+<div class="image-grid">
+    <div *ngFor="let row of data.composers" class="grid-item" (click)="onClick(row)">
+        <div class="image-container">
+            <img [src]="row.portrait" alt="Item Image" class="grid-image">
+            <div class="overlay" *ngIf="row.expanded">
+                <p>{{ row.complete_name }}</p>
+                <p>{{ row.birth }} -- {{row.death}}</p>
+                <p>{{ row.epoch }}</p>
+            </div>
+        </div>
+        <p>{{ row.name }}</p>
+    </div>
+</div>  
+<!--
+<div *ngIf="selectedRow" class="details">
+<h3>{{ selectedRow.name }} - Details</h3>
+<p>{{ selectedRow.details }}</p>
+</div>
+-->
+
+
+
+
+
+
+<!--
 <h1>COMPOSITORS AMB LA LLETRA {{ letter }}</h1>
 <div *ngIf="data">
   <table>
@@ -42,3 +68,4 @@
     </tbody>
   </table>
 </div>
+-->

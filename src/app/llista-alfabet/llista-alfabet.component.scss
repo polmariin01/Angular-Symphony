@@ -12,8 +12,29 @@
     }
   }
   
+
+.alphabet-menu {
+  display: flex;
+  justify-content: center;
+  background-color: #333; /* Background color of the menu */
+  padding: 10px;
+}
+
 .letter {
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 18px;
-  }
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+.letter a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.letter a:hover {
+  color: #ffd700; /* Change color on hover, you can adjust to your desired hover color */
+}

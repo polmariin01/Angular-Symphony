@@ -1,3 +1,5 @@
-<div class="letter" *ngFor="let letter of alphabet">
-    <a [routerLink]="['/lletra', letter]">{{ letter }}</a>
-</div>
+<div class="alphabet-menu">
+    <div class="letter" *ngFor="let letter of alphabet">
+        <a [routerLink]="['/lletra', letter]">{{ letter }}</a>
+    </div>
+</div>  

@@ -1,17 +1,22 @@
 <div class="composers-section">
-  <div class="image-grid">
-    <div *ngFor="let row of data.composers" class="grid-item" (click)="onClick(row)">
-      <div class="image-container">
-        <img [src]="row.portrait" alt="Item Image" class="grid-image">
-        <div class="overlay" *ngIf="row.expanded">
-          <h3>{{ row.complete_name }}</h3>
-          <p>{{ row.birth.replaceAll('-','/') }} - {{row.death.replaceAll('-','/')}}</p>
-          <p>{{ row.epoch }}</p>
+  <ng-container *ngIf="data.composers && data.composers.length> 0; else noComposers">
+    <div class="image-grid">
+      <div *ngFor="let row of data.composers" class="grid-item" (click)="onClick(row)">
+        <div class="image-container">
+          <img [src]="row.portrait" alt="Item Image" class="grid-image">
+          <div class="overlay" *ngIf="row.expanded">
+            <h3>{{ row.complete_name }}</h3>
+            <p>{{ row.birth.replaceAll('-','/') }} - {{row.death.replaceAll('-','/')}}</p>
+            <p>{{ row.epoch }}</p>
+          </div>
         </div>
+        <p (click)="onClick(row)">{{ row.name }}</p>
       </div>
-      <p (click)="onClick(row)">{{ row.name }}</p>
     </div>
-  </div>
+  </ng-container>
+  <ng-template #noComposers>
+    <p>No hi ha compositors disponibles amb la lletra {{letter}}.</p>
+  </ng-template>
 </div>
 
 

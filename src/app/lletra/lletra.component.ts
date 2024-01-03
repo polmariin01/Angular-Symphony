@@ -37,6 +37,17 @@ export class LletraComponent {
     if (row.expanded) {
       row.expanded = false;
     } else {
+      //Request a la API que porta el recompte de 
+      this.apiService.generateInteraction(row.id).subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.error('Error incrementing interaction count', error);
+        }
+      );
+      console.log('this id: ', row.id);
+      //console.log(response);
       row.expanded = true;
     }
   }

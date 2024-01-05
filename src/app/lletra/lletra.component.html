@@ -5,9 +5,12 @@
         <div class="image-container">
           <img [src]="row.portrait" alt="Item Image" class="grid-image">
           <div class="overlay" *ngIf="row.expanded">
-            <h3>{{ row.complete_name }}</h3>
-            <p>{{ row.birth.replaceAll('-','/') }} - {{row.death.replaceAll('-','/')}}</p>
-            <p>{{ row.epoch }}</p>
+            <div>
+              <h3>{{ row.complete_name }}</h3>
+              <p>{{ row.birth.replaceAll('-','/') }} - {{row.death.replaceAll('-','/')}}</p>
+              <p>{{ row.epoch }}</p>
+            </div>
+            <p class="interest-text">Interest: {{ row.count }} </p> <!--Recompte de clicks-->
           </div>
         </div>
         <p (click)="onClick(row)">{{ row.name }}</p>

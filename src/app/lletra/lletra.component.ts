@@ -57,8 +57,10 @@ export class LletraComponent {
           console.error('Error incrementing interaction count', error);
         }
       );
-      console.log('this id: ', composer.id);
+      //console.log('this id: ', composer.id);
       composer.expanded = true;
+
+      this.createData();
     }
   }
 

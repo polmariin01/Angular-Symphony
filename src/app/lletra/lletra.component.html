@@ -11,6 +11,14 @@
               <h3>{{ composer.complete_name }}</h3>
               <p>{{ composer.birth.replaceAll('-','/') }} - {{composer.death.replaceAll('-','/')}}</p>
               <p>{{ composer.epoch }}</p>
+
+              <div class="works-container" *ngIf="composer.works && composer.works.length > 0">
+                <p class="works-text" >Works:</p>
+                <ul>
+                  <li class="works-text" *ngFor="let work of composer.works">{{ work }}</li>
+                </ul>
+              </div>
+
             </div>
             <p class="interest-text">Interest: {{ composer.count }} </p> <!--Recompte de clicks-->
           </div>

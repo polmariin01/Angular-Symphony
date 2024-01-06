@@ -41,85 +41,6 @@ export class LletraComponent {
   }
 
 
-
-
-  async createData(): Promise<void> {
-    console.log("CREATE DATA");
-    // Data from the api, gets the json with every information and stores it in the data variable
-
-    await this.getMainData();
-
-
-
-    for (const item of this.data) {
-      this.data.forEach((item: any) => {
-        if (item.death == null) {
-          item.death = 'present';
-        }          
-      });
-      item.isTrending = await this.getTrendingStatus(item);
-      item.works = await this.getWorks(item);
-    };
-
-    console.log("Final data object.");
-    console.log(this.data);
-  }
-
-
-
-/**
- * 
-  createData(): void {
-    console.log("CREATE DATA");
-    // Data from the api, gets the json with every information and stores it in the data variable
-    this.apiService.getData(this.letter).subscribe(
-      (response) => {
-        if ('composers' in response) {
-          //this.data = response.composers;
-          this.data = response.composers as Composer[];
-          console.log(this.data);
-          console.log('\tgetData() - ');
-
-          this.data.forEach(async (item: any)) => {
-            if (item.death == null) {
-              item.death = 'present';
-            }          
-          }
-        }
-//        this.data = response;
-
-        //console.log(this.data);
-
-
-      }
-    );
-
-
-    // Create the aditional information we need in the data, for each composer
-    this.data.forEach((item: any) => {
-      // Null problem with alive composers
-      if (item.death == null) {
-        item.death = 'present';
-      }
-
-      // Trending Status in the local API
-      item.isTrending = await this.getTrendingStatus(item);
-
-      //Works of the composer
-      item.works = this.getWorks(item);
-    });
-
-    console.log("Final data object.");
-    console.log(this.data);
-  }
- * 
- * 
- * 
- */
-
-
-
-
   //Generate interaction with the api since an author has been clicked on
   onClick(row: any): void {
     if (row.expanded) {
@@ -138,6 +59,32 @@ export class LletraComponent {
       console.log('this id: ', row.id);
       row.expanded = true;
     }
+  }
+
+
+
+  // CREACIO D'UN DICCIONARI AMB TOTES LES DATES DELS COMPOSITORS
+  // DADES NETES, COMPLETES I ORDENADES
+
+  async createData(): Promise<void> {
+    console.log("CREATE DATA");
+
+    // Data from the api, gets the json with every information and stores it in the data variable
+    await this.getMainData();
+
+    // Modificació dels objectes de cada compositor. Ens assegurem que no donaran errors de null, afegim a cadascun una variable isTrending i una llista d'obres.
+    for (const item of this.data) {
+      this.data.forEach((item: any) => {
+        if (item.death == null) { //Fa que no falli quan un compositor encara esta viu i death es null
+          item.death = 'present';
+        }          
+      });
+      item.isTrending = await this.getTrendingStatus(item); // Afegeix propietat booleana de tendencia per saber si s'ha d'afegir algo visual per fer notar que es tendencia
+      item.works = await this.getWorks(item);               // Afegeix una llista a cada compositor amb noms d'obres seves.
+    };
+
+    console.log("Final data object.");
+    console.log(this.data);
   }
 
 
@@ -168,7 +115,7 @@ export class LletraComponent {
   
 
 
-  //deprecated
+  //deprecated  - no s'utilitza pero la deixo per si un cas
   getComposerData(row: any): void {
     //Request a la API que porta el recompte de 
     this.apiService.getComposerData(row.id).subscribe(
@@ -184,25 +131,6 @@ export class LletraComponent {
     console.log('this id: ', row.id);
   }
 
-/**
-  async getTrendingStatus(composer: any) : Promise<boolean> {
-    //Request a la API que porta el recompte de 
-    console.log('getTrendingStatus() - composer:', composer.name, composer.id);
-    this.apiService.getComposerData(composer.id).subscribe(
-      (response) => {
-        console.log('getTrendingStatus() - ' + response);
-        console.log(response);
-        console.log('getTrendingStatus() - ' + composer.isTrending);
-        return response.isTrending;
-      },
-      (error) => {
-        console.error('Error getting composer data', error);
-      }
-    );
-    console.log('getTrendingStatus() - didnt work');
-    return false;
-  }
-  */
 
   async getTrendingStatus(composer: Composer): Promise<boolean> {
     // Request to the API for the count of trending status
@@ -212,9 +140,8 @@ export class LletraComponent {
     return new Promise<boolean>((resolve, reject) => {
       const observer: Observer<any> = {
         next: (response) => {
-          console.log('getTrendingStatus() - ' + response);
           console.log(response);
-          console.log('getTrendingStatus() - ' + composer.isTrending);
+          console.log('getTrendingStatus() - ' + response.isTrending);
           resolve(response.isTrending);
         },
         error: (error) => {
@@ -233,9 +160,35 @@ export class LletraComponent {
   
 
   //TODO
-  async getWorks(composer: any): Promise<any> {
-    //return [];
+  async getWorks(composer: any): Promise<void> {
     // GET /work/list/composer/129/genre/all.json
+    return new Promise<void>((resolve, reject) => {
+      
+      const observer: Observer<any> = {
+        next: (response) => {
+          console.log(response);
+          console.log('getWorks() - ' + response.isTrending);
+          // Agafa les primeres tres obres (es pot canviar) i crea un array amb només els noms
+          if (Array.isArray(response.works) && response.works.length > 0) {
+            const worksTitles = response.works.slice(0,3).map((item: any) => item.title);
+            resolve(worksTitles);
+          } else {
+            console.warn('Empty response.work array');
+            resolve();
+          }
+        },
+        error: (error) => {
+          console.error('Error getting works', error);
+          reject(error);
+        },
+        complete: () => {
+          // Optional: You can perform any cleanup or finalization here
+        }
+      };
+  
+      // Call the API using the observer
+      this.apiService.getWorks(composer.id).subscribe(observer);
+    });
   }
 
 
@@ -243,8 +196,8 @@ export class LletraComponent {
   trendingMessage(composer: any): string {
     //this.getComposerData(row);
     if (composer.isTrending) {
-      return '  TRENDING!!!';
+      return '    TRENDING!!!!!';
     }
-    return ' - mediocre';
+    return '';
   }
 }

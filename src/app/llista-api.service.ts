@@ -6,14 +6,14 @@ import { Observable, count } from 'rxjs';
   providedIn: 'root'
 })
 export class LlistaApiService {
-  private baseUrl = 'https://api.openopus.org/composer/list/name/';
+  //private baseUrl = 'https://api.openopus.org/composer/list/name/';
 
   constructor(private http: HttpClient) { }
 
   //Get data from the composers api
   getData(lletra: string | null) {
     if (lletra !== null) {
-      const apiUrl = this.baseUrl + lletra.toLowerCase() + '.json';
+      const apiUrl = 'https://api.openopus.org/composer/list/name/' + lletra.toLowerCase() + '.json';
       console.log(apiUrl);
       return this.http.get(apiUrl);
     } else {
@@ -30,9 +30,15 @@ export class LlistaApiService {
     return this.http.post(countingApiUrl, {});
   }
 
-  getComposerData(id: string | null) : Observable<any>{
+  getComposerData(id: string | null) : Observable<any> {
     const countingApiUrl = 'http://127.0.0.1:8000/composer/' + id + '/get/';
     console.log(countingApiUrl);
-    return this.http.get(countingApiUrl, {});
+    return this.http.get(countingApiUrl);
+  }
+
+  getWorks(id: string): Observable<any> {
+    const apiUrl = 'https://api.openopus.org/work/list/composer/' + id + '/genre/Recommended.json';
+    console.log("GET WORKS - ", apiUrl);
+    return this.http.get(apiUrl);
   }
 }

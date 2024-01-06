@@ -42,22 +42,23 @@ export class LletraComponent {
 
 
   //Generate interaction with the api since an author has been clicked on
-  onClick(row: any): void {
-    if (row.expanded) {
-      row.expanded = false;
+  onClick(composer: any): void {
+    if (composer.expanded) {
+      composer.expanded = false;
     } else {
-      //Request a la API que porta el recompte de 
-      this.apiService.generateInteraction(row.id).subscribe(
+      //Request a la API que porta el recompte de tendencia
+      // aqui vaig fer la crida a la api d'aquesta forma, després he vist que es millor creant un observer
+      this.apiService.generateInteraction(composer.id).subscribe(
         (response) => {
           //console.log(response);
-          row.count = response.countedInteractions;
+          composer.count = response.countedInteractions;
         },
         (error) => {
           console.error('Error incrementing interaction count', error);
         }
       );
-      console.log('this id: ', row.id);
-      row.expanded = true;
+      console.log('this id: ', composer.id);
+      composer.expanded = true;
     }
   }
 
@@ -67,7 +68,7 @@ export class LletraComponent {
   // DADES NETES, COMPLETES I ORDENADES
 
   async createData(): Promise<void> {
-    console.log("CREATE DATA");
+    //console.log("CREATE DATA");
 
     // Data from the api, gets the json with every information and stores it in the data variable
     await this.getMainData();
@@ -116,13 +117,13 @@ export class LletraComponent {
 
 
   //deprecated  - no s'utilitza pero la deixo per si un cas
-  getComposerData(row: any): void {
+  getComposerData(composer: any): void {
     //Request a la API que porta el recompte de 
-    this.apiService.getComposerData(row.id).subscribe(
+    this.apiService.getComposerData(composer.id).subscribe(
       (response) => {
         //console.log(response);
-        row.isTrending = response.isTrending;
-        //console.log(row.isTrending);
+        composer.isTrending = response.isTrending;
+        //console.log(composer.isTrending);
       },
       (error) => {
         console.error('Error getting composer data', error);
@@ -193,6 +194,7 @@ export class LletraComponent {
 
 
   // Despres es farà menys cutre
+  // Deprecated - no s'utilitza
   trendingMessage(composer: any): string {
     //this.getComposerData(row);
     if (composer.isTrending) {

@@ -3,30 +3,34 @@
     <div class="image-grid">
       <div *ngFor="let composer of data" class="grid-item" (click)="onClick(composer)">
         <div class="image-container">
-          <img [src]="composer.portrait" alt="Item Image" class="grid-image">
-          <div class="overlay" *ngIf="composer.expanded">
-            <div>
-              <!--<h3>{{ composer.complete_name }}</h3>-->
+          <div>
 
-              <h3>{{ composer.complete_name }}</h3>
-              <p>{{ composer.birth.replaceAll('-','/') }} - {{composer.death.replaceAll('-','/')}}</p>
-              <p>{{ composer.epoch }}</p>
-
-              <div class="works-container" *ngIf="composer.works && composer.works.length > 0">
-                <p class="works-text" >Obres rellevants:</p>
-                <ul>
-                  <li class="works-text" *ngFor="let work of composer.works">{{ work }}</li>
-                </ul>
-              </div>
-
+            <img [src]="composer.portrait" alt="Item Image" class="grid-image">
+            <div class="trending-overlay" *ngIf="composer.isTrending"> <!--Overlay del element que es trenging-->
+              <p class="trending-text">TENDENCIA</p>
             </div>
-            <p class="interest-text">Interest: {{ composer.count }} </p> <!--Recompte de clicks-->
-          </div>
-          <div class="trending-overlay" *ngIf="composer.isTrending"> <!--Overlay del element que es trenging-->
-            <p class="trending-text">TENDENCIA</p>
+            <div class="overlay" *ngIf="composer.expanded">
+              <div>
+                <!--<h3>{{ composer.complete_name }}</h3>-->
+
+                <h3>{{ composer.complete_name }}</h3>
+                <p>{{ composer.birth.replaceAll('-','/') }} - {{composer.death.replaceAll('-','/')}}</p>
+                <p>{{ composer.epoch }}</p>
+
+                <div class="works-container" *ngIf="composer.works && composer.works.length > 0">
+                  <p class="works-text" >Obres rellevants:</p>
+                  <ul>
+                    <li class="works-text" *ngFor="let work of composer.works">{{ work }}</li>
+                  </ul>
+                </div>
+
+              </div>
+              <p class="interest-text">Interest: {{ composer.count }} </p> <!--Recompte de clicks-->
+            </div>
+
           </div>
         </div>
-        <p (click)="onClick(composer)">{{ composer.name }} {{trendingMessage(composer)}}</p>
+        <p (click)="onClick(composer)">{{ composer.name }}</p>
       </div>
     </div>
   </ng-container>

@@ -14,10 +14,10 @@ export class LlistaApiService {
   getData(lletra: string | null) {
     if (lletra !== null) {
       const apiUrl = 'https://api.openopus.org/composer/list/name/' + lletra.toLowerCase() + '.json';
-      console.log(apiUrl);
+      //console.log(apiUrl);
       return this.http.get(apiUrl);
     } else {
-      console.log('Default link in API');
+      //console.log('Default link in API');
       return this.http.get('https://api.openopus.org/composer/list/pop.json');
     }
   }

@@ -13,7 +13,7 @@
               <p>{{ composer.epoch }}</p>
 
               <div class="works-container" *ngIf="composer.works && composer.works.length > 0">
-                <p class="works-text" >Works:</p>
+                <p class="works-text" >Obres rellevants:</p>
                 <ul>
                   <li class="works-text" *ngFor="let work of composer.works">{{ work }}</li>
                 </ul>
@@ -21,6 +21,9 @@
 
             </div>
             <p class="interest-text">Interest: {{ composer.count }} </p> <!--Recompte de clicks-->
+          </div>
+          <div class="trending-overlay" *ngIf="composer.isTrending"> <!--Overlay del element que es trenging-->
+            <p class="trending-text">TENDENCIA</p>
           </div>
         </div>
         <p (click)="onClick(composer)">{{ composer.name }} {{trendingMessage(composer)}}</p>

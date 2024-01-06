@@ -49,7 +49,7 @@ export class LletraComponent {
       //Request a la API que porta el recompte de 
       this.apiService.generateInteraction(row.id).subscribe(
         (response) => {
-          console.log(response);
+          //console.log(response);
           row.count = response.countedInteractions;
         },
         (error) => {
@@ -83,19 +83,19 @@ export class LletraComponent {
       item.works = await this.getWorks(item);               // Afegeix una llista a cada compositor amb noms d'obres seves.
     };
 
-    console.log("Final data object.");
+    console.log("Data object.");
     console.log(this.data);
   }
 
 
   async getMainData() : Promise<void> {
-    console.log("GET MAIN DATA");
+    //console.log("GET MAIN DATA");
     return new Promise<void>((resolve, reject) => {
       const observer: Observer<any> = {
         next: (response) => {
           if ('composers' in response) {
             this.data = response.composers as Composer[];
-            console.log(this.data);
+            //console.log(this.data);
           }
           resolve();
         },
@@ -104,7 +104,7 @@ export class LletraComponent {
           reject(error);
         },
         complete: () => {
-          // Optional: You can perform any cleanup or finalization here
+          // De moment no poso res
         }
       };
   
@@ -120,28 +120,28 @@ export class LletraComponent {
     //Request a la API que porta el recompte de 
     this.apiService.getComposerData(row.id).subscribe(
       (response) => {
-        console.log(response);
+        //console.log(response);
         row.isTrending = response.isTrending;
-        console.log(row.isTrending);
+        //console.log(row.isTrending);
       },
       (error) => {
         console.error('Error getting composer data', error);
       }
     );
-    console.log('this id: ', row.id);
+    //console.log('this id: ', row.id);
   }
 
 
   async getTrendingStatus(composer: Composer): Promise<boolean> {
     // Request to the API for the count of trending status
-    console.log('getTrendingStatus() - composer:', composer.name, composer.id);
+    //console.log('getTrendingStatus() - composer:', composer.name, composer.id);
   
     // Returning a Promise to handle the asynchronous operation
     return new Promise<boolean>((resolve, reject) => {
       const observer: Observer<any> = {
         next: (response) => {
-          console.log(response);
-          console.log('getTrendingStatus() - ' + response.isTrending);
+          //console.log(response);
+          //console.log('getTrendingStatus() - ' + response.isTrending);
           resolve(response.isTrending);
         },
         error: (error) => {
@@ -166,8 +166,8 @@ export class LletraComponent {
       
       const observer: Observer<any> = {
         next: (response) => {
-          console.log(response);
-          console.log('getWorks() - ' + response.isTrending);
+          //console.log(response);
+          //console.log('getWorks() - ' + response.isTrending);
           // Agafa les primeres tres obres (es pot canviar) i crea un array amb només els noms
           if (Array.isArray(response.works) && response.works.length > 0) {
             const worksTitles = response.works.slice(0,3).map((item: any) => item.title);

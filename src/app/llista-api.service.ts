@@ -26,19 +26,19 @@ export class LlistaApiService {
 //      const countingApiUrl = 'http://localhost:8000/composer/' + id + '/count/';
 //      http://localhost:8000/composer/1/get/
     const countingApiUrl = 'http://127.0.0.1:8000/composer/' + id + '/count/';
-    console.log(countingApiUrl);
+    //console.log(countingApiUrl);
     return this.http.post(countingApiUrl, {});
   }
 
   getComposerData(id: string | null) : Observable<any> {
     const countingApiUrl = 'http://127.0.0.1:8000/composer/' + id + '/get/';
-    console.log(countingApiUrl);
+    //console.log(countingApiUrl);
     return this.http.get(countingApiUrl);
   }
 
   getWorks(id: string): Observable<any> {
     const apiUrl = 'https://api.openopus.org/work/list/composer/' + id + '/genre/Recommended.json';
-    console.log("GET WORKS - ", apiUrl);
+    //console.log("GET WORKS - ", apiUrl);
     return this.http.get(apiUrl);
   }
 }

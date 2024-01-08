@@ -6,9 +6,12 @@
           <div>
 
             <img [src]="composer.portrait" alt="Item Image" class="grid-image">
-            <div class="trending-overlay" *ngIf="composer.isTrending"> <!--Overlay del element que es trenging-->
+            <!--Overlay del element que es trenging-->
+            
+            <div class="trending-overlay" *ngIf="composer.isTrending"> 
               <p class="trending-text">TENDENCIA</p>
             </div>
+            
             <div class="overlay" *ngIf="composer.expanded">
               <div>
                 <!--<h3>{{ composer.complete_name }}</h3>-->

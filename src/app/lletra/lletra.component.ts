@@ -15,10 +15,11 @@ interface Composer {
   epoch: string;
   portrait: string;
 
+  count: number;         // Nombre de clics
+  isTrending: boolean;   // Si es tendencia o no
+  works: any;            // Nombre d'obres
+
   expanded?: boolean;
-  count?: number;         // Nombre de clics
-  isTrending?: boolean;   // Si es tendencia o no
-  works?: any;            // Nombre d'obres
 }
 
 
@@ -33,7 +34,8 @@ interface Composer {
 export class LletraComponent {
   letter: string | null = null;
   data: Composer[] = [];
-  //currentTrending: any;
+  currentTrending: Composer | any;
+  //maxTrend: number = 0;
 
   constructor(private route : ActivatedRoute, private apiService: LlistaApiService) {}
 
@@ -65,7 +67,7 @@ export class LletraComponent {
       //console.log('this id: ', composer.id);
       composer.expanded = true;
 
-      this.updateTrending();
+      this.updateTrending(composer);
     }
   }
 
@@ -94,7 +96,7 @@ export class LletraComponent {
       item.works = await this.getWorks(item);               // Afegeix una llista a cada compositor amb noms d'obres seves.
     };
 
-    this.updateTrending();
+    this.setTrending();
 
     console.log("Objecte amb totes les dades");
     console.log(this.data);
@@ -192,8 +194,24 @@ export class LletraComponent {
     const index = composers.findIndex(composer => composer.id === targetId);
   }*/
 
+  updateTrending(updatedComposer: Composer){
+    //Només compara l'antic trending amb l'últim clicat per a una implementació més ràpida
+
+    // Comparació dels dos contadors
+
+    if ( updatedComposer.id != this.currentTrending.id &&   // L'ultim clicat es diferent al anterior trending
+//      updatedComposer.hasOwnProperty('count') &&          // Això per a que no em doni error - solved, posat com a propietat de la interface sense ?
+      (updatedComposer.count || 0) >= (this.currentTrending.count || 0)   
+      ) {
+      console.log("Ha entrat al if \nClicat:", updatedComposer.name, "-", updatedComposer.count, "\nTrending actual:", this.currentTrending.name, "-", this.currentTrending.count )
+      updatedComposer.isTrending = true;
+      this.currentTrending.isTrending = false;
+      this.currentTrending = updatedComposer;
+    }
+  }
+
   // Actualitza l'element
-  updateTrending(): void {
+  setTrending(): void {
 //    updateTrending(updatedComposer: any): void {
   // Anava a fer una funcio que mires només l'antic i el més nou, fent-lo bastant més eficient pero menys robust.
   // Al no haver moltes dades no crec que calgui fer-ho tant eficient i així es pot reutilitzar la formula per utilitzar-la al init també.
@@ -212,6 +230,7 @@ export class LletraComponent {
       }        
     });
 
+    this.currentTrending = trendingComposer;
 /*
     for (const composer of this.data) {
       if (composer.count != null && composer.count >= maxCount) {

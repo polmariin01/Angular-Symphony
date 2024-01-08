@@ -171,7 +171,7 @@ export class LletraComponent {
             const worksTitles = response.works.slice(0,3).map((item: any) => item.title);
             resolve(worksTitles);
           } else {
-            console.warn('Empty response.work array');
+            console.warn('Empty response.works array.', composer.name, 'does not have any relevant work to display');
             resolve();
           }
         },

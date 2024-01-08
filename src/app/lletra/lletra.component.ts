@@ -136,7 +136,7 @@ export class LletraComponent {
     return new Promise<boolean>((resolve, reject) => {
       const observer: Observer<any> = {
         next: (response) => {
-          console.log(response);
+          // console.log(response);
           //console.log('getTrendingStatus() - ' + response.isTrending);
           resolve(response);
         },
@@ -197,7 +197,9 @@ export class LletraComponent {
 //    updateTrending(updatedComposer: any): void {
   // Anava a fer una funcio que mires només l'antic i el més nou, fent-lo bastant més eficient pero menys robust.
   // Al no haver moltes dades no crec que calgui fer-ho tant eficient i així es pot reutilitzar la formula per utilitzar-la al init també.
-    console.log("UPDATE TRENDING");
+    // Va bastant lent quan hi ha molts compositors, s'hauria de tenir preparat al backend i només demanar les dades de tornada i tenir-ho tot
+
+    //console.log("UPDATE TRENDING");
 
     let maxCount = 0;
     let trendingComposer: Composer | null = null;
